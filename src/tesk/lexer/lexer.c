@@ -41,6 +41,34 @@ token* lexer_tokenize_number(lexer* lxr) {
     return token_new(result, NUM);
 }
 
+token* lexer_tokenize_word(lexer* lxr) {
+    str_t* buffer = str_new(16);
+    char it = lxr->input[lxr->position];
+    while(lxr->position < lxr->length && (isalpha(it) || isdigit(it) || it == '_')) {
+        str_push(buffer, it);
+        it = lxr->input[++lxr->position];
+    }
+    char* result = str_bld(buffer);
+    str_free(buffer);
+    
+    token* result_token;
+    
+    if(!strcmp(result, "i8") || !strcmp(result, "i16") || !strcmp(result, "i32") || !strcmp(result, "i64") ||
+       !strcmp(result, "u8") || !strcmp(result, "u16") || !strcmp(result, "u32") || !strcmp(result, "u64") ||
+       !strcmp(result, "f8") || !strcmp(result, "f16") || !strcmp(result, "f32") || !strcmp(result, "f64") ||
+       !strcmp(result, "bool") || !strcmp(result, "char")) {
+        result_token = token_new(result, DT); 
+    } else if(!strcmp(result, "fn") || !strcmp(result, "if") || !strcmp(result, "else") || 
+              !strcmp(result, "while") || !strcmp(result, "for")) {
+        result_token = token_new(result, KEYWORD); 
+    } else {
+        result_token = token_new(result, ID);
+    }
+    
+    return result_token;
+}
+
+
 vec_t* lexer_tokenize(char* input) {
     char* in_cpy = malloc(strlen(input)+1);
     strcpy(in_cpy, input);
@@ -73,7 +101,12 @@ vec_t* lexer_tokenize(char* input) {
                 continue;
             }
             case ':': {
-                vec_push(lxr.tokens, token_new(":", SEMICOLON));
+                vec_push(lxr.tokens, token_new(":", COLON));
+                lxr.position++;
+                continue;
+            }
+            case ';': {
+                vec_push(lxr.tokens, token_new(";", SEMICOLON));
                 lxr.position++;
                 continue;
             }
@@ -87,9 +120,33 @@ vec_t* lexer_tokenize(char* input) {
                 lxr.position++;
                 continue;
             }
+            case '{': {
+                vec_push(lxr.tokens, token_new("{", LBRACE));
+                lxr.position++;
+                continue;
+            }
+            case '}': {
+                vec_push(lxr.tokens, token_new("}", RBRACE));
+                lxr.position++;
+                continue;
+            }
+            case '=': {
+                vec_push(lxr.tokens, token_new("=", ASSIGN));
+                lxr.position++;
+                continue;
+            }
         }
         if(isdigit(it)) {
             token* tkn = lexer_tokenize_number(&lxr);
+            if(!tkn) {
+                free(lxr.input);
+                vec_free(lxr.tokens);
+                break;
+            }
+            vec_push(lxr.tokens, tkn);
+            continue;
+        } else if(isalpha(it)) {
+            token* tkn = lexer_tokenize_word(&lxr);
             if(!tkn) {
                 free(lxr.input);
                 vec_free(lxr.tokens);
