@@ -1,1 +1,0 @@
-/bin/cc -Wl,--dependency-file=CMakeFiles/tesk-test.dir/link.d "CMakeFiles/tesk-test.dir/test_lexer.c.o" -o tesk-test  ../libtesk.a ../libs/vec_t/libvec_t.a ../libs/str_t/libstrbld_t.a

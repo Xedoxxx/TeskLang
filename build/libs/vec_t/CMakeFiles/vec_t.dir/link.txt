@@ -1,2 +1,0 @@
-/bin/ar qc libvec_t.a CMakeFiles/vec_t.dir/src/vec.c.o
-/bin/ranlib libvec_t.a

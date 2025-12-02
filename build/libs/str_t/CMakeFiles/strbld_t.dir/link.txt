@@ -1,2 +1,0 @@
-/bin/ar qc libstrbld_t.a CMakeFiles/strbld_t.dir/src/string_builder.c.o
-/bin/ranlib libstrbld_t.a

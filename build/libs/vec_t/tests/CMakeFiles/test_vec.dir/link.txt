@@ -1,1 +1,0 @@
-/bin/cc -Wl,--dependency-file=CMakeFiles/test_vec.dir/link.d CMakeFiles/test_vec.dir/vec_test.c.o -o test_vec  ../libvec_t.a
