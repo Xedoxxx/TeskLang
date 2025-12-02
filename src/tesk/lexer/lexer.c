@@ -8,8 +8,6 @@
 #include <stdbool.h>
 #include <string_builder.h>
 
-GEN_VEC_FUNCS_FOR_TYPE(token)
-
 typedef struct lexer {
     size_t position;
     size_t length;
@@ -46,7 +44,7 @@ token* lexer_tokenize_number(lexer* lxr) {
 vec_t* lexer_tokenize(char* input) {
     char* in_cpy = malloc(strlen(input)+1);
     strcpy(in_cpy, input);
-    lexer lxr = { 0, strlen(input), vec_new_token(), in_cpy };
+    lexer lxr = { 0, strlen(input), vec_new(sizeof(token)), in_cpy };
     while(lxr.position < lxr.length) {
         char it = lxr.input[lxr.position];
         if(isspace(it)) {
@@ -71,6 +69,21 @@ vec_t* lexer_tokenize(char* input) {
             }
             case '/': {
                 vec_push(lxr.tokens, token_new("/", SLASH));
+                lxr.position++;
+                continue;
+            }
+            case ':': {
+                vec_push(lxr.tokens, token_new(":", SEMICOLON));
+                lxr.position++;
+                continue;
+            }
+            case '(': {
+                vec_push(lxr.tokens, token_new("(", LPARENT));
+                lxr.position++;
+                continue;
+            }
+            case ')': {
+                vec_push(lxr.tokens, token_new(")", RPARENT));
                 lxr.position++;
                 continue;
             }

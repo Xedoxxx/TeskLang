@@ -9,6 +9,8 @@ typedef enum token_t {
     
     NUM,
     
+    LPARENT,
+    RPARENT,
     SEMICOLON,
     
     EOF
