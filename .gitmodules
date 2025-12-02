@@ -1,0 +1,6 @@
+[submodule "libs/vec_t"]
+	path = libs/vec_t
+	url = https://github.com/Xedoxxx/Vec-C.git
+[submodule "libs/str_t"]
+	path = libs/str_t
+	url = https://github.com/Xedoxxx/StringBuilder-C.git

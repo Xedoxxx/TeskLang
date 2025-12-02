@@ -1,0 +1,1 @@
+/bin/cc -Wl,--dependency-file=CMakeFiles/test_strbld.dir/link.d CMakeFiles/test_strbld.dir/test_strbld.c.o -o test_strbld  ../libstrbld_t.a

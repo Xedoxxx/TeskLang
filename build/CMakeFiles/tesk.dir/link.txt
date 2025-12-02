@@ -1,0 +1,2 @@
+/bin/ar qc libtesk.a CMakeFiles/tesk.dir/src/tesk/lexer/lexer.c.o CMakeFiles/tesk.dir/src/tesk/lexer/token.c.o
+/bin/ranlib libtesk.a
