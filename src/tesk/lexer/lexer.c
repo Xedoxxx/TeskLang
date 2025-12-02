@@ -56,7 +56,7 @@ token* lexer_tokenize_word(lexer* lxr) {
     if(!strcmp(result, "i8") || !strcmp(result, "i16") || !strcmp(result, "i32") || !strcmp(result, "i64") ||
        !strcmp(result, "u8") || !strcmp(result, "u16") || !strcmp(result, "u32") || !strcmp(result, "u64") ||
        !strcmp(result, "f8") || !strcmp(result, "f16") || !strcmp(result, "f32") || !strcmp(result, "f64") ||
-       !strcmp(result, "bool") || !strcmp(result, "char")) {
+       !strcmp(result, "bool") || !strcmp(result, "char") || !strcmp(result, "ret"))) {
         result_token = token_new(result, DT); 
     } else if(!strcmp(result, "fn") || !strcmp(result, "if") || !strcmp(result, "else") || 
               !strcmp(result, "while") || !strcmp(result, "for")) {
@@ -64,7 +64,6 @@ token* lexer_tokenize_word(lexer* lxr) {
     } else {
         result_token = token_new(result, ID);
     }
-    
     return result_token;
 }
 
@@ -160,5 +159,6 @@ vec_t* lexer_tokenize(char* input) {
         vec_free(lxr.tokens);
         break;
     }
+    vec_push(lxr.tokens, token_new("EOF", EOF_TOKEN));
     return lxr.tokens;
 }
